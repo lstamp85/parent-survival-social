@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Parent Survival · social template</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0}
+body{background:#D9D1CA;font-family:'DM Sans',Helvetica,Arial,sans-serif;padding:80px;display:flex;flex-direction:column;gap:80px}
+body.single{padding:0;background:none}
+.row{display:flex;gap:40px;align-items:flex-start}
+.label{font:700 28px 'DM Sans',sans-serif;margin-bottom:20px;color:#1D1B17}
+.art{position:relative;overflow:hidden;flex-shrink:0;display:flex;flex-direction:column}
+.serif{font-family:'Playfair Display',Georgia,serif}
+.lock{display:flex;align-items:center}
+.mark{border-radius:50%;display:flex;align-items:center;justify-content:center}
+.word{font-family:'Playfair Display',Georgia,serif;font-weight:800;letter-spacing:-.5px}
+.h{font-family:'Playfair Display',Georgia,serif;font-weight:800;line-height:1;text-wrap:pretty}
+.card{border:1px solid;display:flex;flex-direction:column}
+.eyebrow{text-transform:uppercase;font-weight:600}
+.ct{font-family:'Playfair Display',Georgia,serif;font-weight:700;line-height:1.18}
+.pill{border-radius:999px;font-weight:700;display:inline-block}
+</style>
+</head>
+<body>
+<script src="concepts.js"></script>
+<script>
+const T = {
+  beige:{bg:'#EFE5DD',ink:'#1D1B17',sub:'#5E554D',mb:'#8F7393',mf:'#F4C8B8',cb:'#FFFFFF',cbd:'#E6DED6',ci:'#1D1B17',cs:'#5E554D',eb:'#A1726A',pb:'#2E1F30',pf:'#FFFFFF'},
+  cream:{bg:'#F6F1EA',ink:'#1D1B17',sub:'#5E554D',mb:'#8F7393',mf:'#F4C8B8',cb:'#FFFFFF',cbd:'#E6DED6',ci:'#1D1B17',cs:'#5E554D',eb:'#A1726A',pb:'#2E1F30',pf:'#FFFFFF'},
+  blush:{bg:'#FCF5F2',ink:'#1D1B17',sub:'#5E554D',mb:'#8F7393',mf:'#F4C8B8',cb:'#FFFFFF',cbd:'#EBE1DC',ci:'#1D1B17',cs:'#5E554D',eb:'#A1726A',pb:'#2E1F30',pf:'#FFFFFF'},
+  plum:{bg:'#2E1F30',ink:'#FCF5F2',sub:'#D9C9D6',mb:'#F4C8B8',mf:'#2E1F30',cb:'#3E2F41',cbd:'#5A4A5C',ci:'#FCF5F2',cs:'#D9C9D6',eb:'#F4C8B8',pb:'#F4C8B8',pf:'#2E1F30'},
+  lilac:{bg:'#BAA3C0',ink:'#1F1622',sub:'#3A2C3D',mb:'#2E1F30',mf:'#F4C8B8',cb:'#FCF5F2',cbd:'#D6C7D9',ci:'#1D1B17',cs:'#3A2C3D',eb:'#8A5F5A',pb:'#2E1F30',pf:'#FFFFFF'},
+  rose:{bg:'#E8B5AE',ink:'#1D1B17',sub:'#6A3A34',mb:'#8F7393',mf:'#F4C8B8',cb:'#FFFFFF',cbd:'#E2CFCB',ci:'#1D1B17',cs:'#5E554D',eb:'#A1726A',pb:'#2E1F30',pf:'#FFFFFF'},
+  peach:{bg:'#F4C8B8',ink:'#1D1B17',sub:'#6A3A34',mb:'#8F7393',mf:'#F4C8B8',cb:'#FFFFFF',cbd:'#E8D3CB',ci:'#1D1B17',cs:'#5E554D',eb:'#A1726A',pb:'#2E1F30',pf:'#FFFFFF'},
+};
+const esc = s => String(s ?? '').replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]));
+const lock = (t, d, w, ms, ws) => `<div class="lock" style="gap:${ms*0.4}px"><div class="mark" style="width:${ms}px;height:${ms}px;background:${t.mb};color:${t.mf};font-size:${ms*0.46}px">&#9829;</div><div class="word" style="font-size:${ws}px;color:${t.ink}">Parent Survival</div></div>`;
+const card = (c, t, s) => `<div class="card" style="background:${t.cb};border-color:${t.cbd};border-radius:${s.r}px;padding:${s.p};gap:16px;${s.extra||''}">
+  ${c.eyebrow ? `<div class="eyebrow" style="font-size:${s.e}px;letter-spacing:${s.e*0.17}px;color:${t.eb}">${esc(c.eyebrow)}</div>` : ''}
+  <div class="ct" style="font-size:${s.t}px;color:${t.ci};font-style:${c.cardItalic?'italic':'normal'}">${esc(c.cardTitle)}</div>
+  ${c.cardBody ? `<div style="font-size:${s.b}px;line-height:1.5;color:${t.cs}">${esc(c.cardBody)}</div>` : ''}</div>`;
+const pill = (c, t, fs, pad) => `<div class="pill" style="background:${t.pb};color:${t.pf};font-size:${fs}px;padding:${pad}">${esc(c.cta)}</div>`;
+
+const SIZES = {
+  '1200x628': (c, t) => `<div class="art" id="${c.id}-1200x628" style="width:1200px;height:628px;background:${t.bg}">
+    <div style="position:absolute;left:60px;top:55px">${lock(t,0,0,34,27)}</div>
+    <div style="position:absolute;left:60px;top:0;bottom:0;width:540px;display:flex;align-items:center"><div class="h" style="font-size:${c.sizes[0]}px;line-height:1.02;letter-spacing:-1.5px;color:${t.ink}">${esc(c.headline)}</div></div>
+    <div style="position:absolute;left:60px;bottom:55px;display:flex;align-items:center;gap:24px">${pill(c,t,21,'18px 30px')}<div style="font-size:19px;color:${t.sub}">${esc(c.priceShort)}</div></div>
+    <div style="position:absolute;right:60px;top:55px;width:490px;height:518px;display:flex">${card(c,t,{r:26,p:'34px',e:15,t:29,b:18,extra:'width:100%;justify-content:center'})}</div></div>`,
+  '1080x1920': (c, t) => `<div class="art" id="${c.id}-1080x1920" style="width:1080px;height:1920px;background:${t.bg};padding:300px 84px 0">
+    ${lock(t,0,0,46,37)}
+    <div style="height:1140px;display:flex;flex-direction:column;justify-content:center;gap:28px">
+      <div class="h" style="font-size:${c.sizes[1]}px;letter-spacing:-3px;color:${t.ink}">${esc(c.headline)}</div>
+      <div style="font-size:36px;line-height:1.45;font-weight:300;color:${t.sub};max-width:800px">${esc(c.subline)}</div>
+      ${card(c,t,{r:28,p:'44px 40px',e:20,t:44,b:25,extra:'margin-top:8px'})}
+    </div>
+    <div style="display:flex;flex-direction:column;gap:28px;align-items:flex-start">${pill(c,t,33,'30px 48px')}<div style="font-size:25px;color:${t.sub}">${esc(c.priceShort)}</div></div></div>`,
+  '1080x1350': (c, t) => `<div class="art" id="${c.id}-1080x1350" style="width:1080px;height:1350px;background:${t.bg};padding:96px 84px 100px">
+    ${lock(t,0,0,46,36)}
+    <div class="h" style="font-size:${c.sizes[2]}px;letter-spacing:-3px;color:${t.ink};margin-top:40px">${esc(c.headline)}</div>
+    <div style="font-size:35px;line-height:1.45;font-weight:300;color:${t.sub};max-width:820px;margin-top:28px">${esc(c.subline)}</div>
+    <div style="flex:1;display:flex;align-items:center"><div style="width:100%">${card(c,t,{r:28,p:'44px',e:20,t:42,b:25})}</div></div>
+    <div style="display:flex;flex-direction:column;gap:30px;align-items:flex-start">${pill(c,t,32,'28px 44px')}<div style="font-size:25px;color:${t.sub}">${esc(c.priceLong)}</div></div></div>`,
+  '1080x1080': (c, t) => `<div class="art" id="${c.id}-1080x1080" style="width:1080px;height:1080px;background:${t.bg};padding:84px">
+    ${lock(t,0,0,42,33)}
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:24px">
+      <div class="h" style="font-size:${c.sizes[3]}px;line-height:1.02;letter-spacing:-2.5px;color:${t.ink}">${esc(c.headline)}</div>
+      <div style="font-size:30px;line-height:1.4;color:${t.sub};max-width:760px">${esc(c.subShort)}</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:28px">${pill(c,t,30,'26px 40px')}<div style="font-size:23px;color:${t.sub}">${esc(c.priceShort)}</div></div></div>`,
+};
+
+// ?id=3A&size=1080x1350 renders one artboard alone (for PNG export). No params = overview.
+const q = new URLSearchParams(location.search);
+const one = q.get('id'), sz = q.get('size');
+if (one && sz) {
+  document.body.className = 'single';
+  const c = CONCEPTS.find(x => x.id === one);
+  document.body.insertAdjacentHTML('beforeend', SIZES[sz](c, T[c.theme]));
+} else {
+  for (const c of CONCEPTS) {
+    const t = T[c.theme];
+    document.body.insertAdjacentHTML('beforeend', `<section><div class="label">${esc(c.id)} · ${esc(c.name)}</div><div class="row">${Object.values(SIZES).map(f => f(c, t)).join('')}</div></section>`);
+  }
+}
+</script>
+</body>
+</html>

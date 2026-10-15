@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Parent Survival · carousel PS-W1-02 (awaiting approval)</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0}
+body{background:#D9D1CA;font-family:'DM Sans',Helvetica,Arial,sans-serif;padding:80px;display:flex;flex-wrap:wrap;gap:40px}
+body.single{padding:0;background:none}
+.art{position:relative;overflow:hidden;flex-shrink:0;display:flex;flex-direction:column;width:1080px;height:1350px;padding:96px 84px 100px}
+.lock{display:flex;align-items:center;gap:18px}
+.mark{border-radius:50%;display:flex;align-items:center;justify-content:center;width:46px;height:46px;font-size:21px}
+.word{font-family:'Playfair Display',Georgia,serif;font-weight:800;letter-spacing:-.5px;font-size:36px}
+.h{font-family:'Playfair Display',Georgia,serif;font-weight:800;line-height:1;letter-spacing:-3px;text-wrap:pretty}
+.card{border:1px solid;display:flex;flex-direction:column;border-radius:28px;padding:44px;gap:16px}
+.eyebrow{text-transform:uppercase;font-weight:600;font-size:20px;letter-spacing:3.4px}
+.ct{font-family:'Playfair Display',Georgia,serif;font-weight:700;line-height:1.18;font-size:42px}
+.count{font-size:25px;font-weight:600;letter-spacing:2px}
+</style>
+</head>
+<body>
+<script>
+// Uses the same theme tokens as template.html (approved kit).
+const T = {
+  cream:{bg:'#F6F1EA',ink:'#1D1B17',sub:'#5E554D',mb:'#8F7393',mf:'#F4C8B8',cb:'#FFFFFF',cbd:'#E6DED6',ci:'#1D1B17',cs:'#5E554D',eb:'#A1726A'},
+  blush:{bg:'#FCF5F2',ink:'#1D1B17',sub:'#5E554D',mb:'#8F7393',mf:'#F4C8B8',cb:'#FFFFFF',cbd:'#EBE1DC',ci:'#1D1B17',cs:'#5E554D',eb:'#A1726A'},
+  plum:{bg:'#2E1F30',ink:'#FCF5F2',sub:'#D9C9D6',mb:'#F4C8B8',mf:'#2E1F30',cb:'#3E2F41',cbd:'#5A4A5C',ci:'#FCF5F2',cs:'#D9C9D6',eb:'#F4C8B8'},
+  lilac:{bg:'#BAA3C0',ink:'#1F1622',sub:'#3A2C3D',mb:'#2E1F30',mf:'#F4C8B8',cb:'#FCF5F2',cbd:'#D6C7D9',ci:'#1D1B17',cs:'#3A2C3D',eb:'#8A5F5A'},
+  peach:{bg:'#F4C8B8',ink:'#1D1B17',sub:'#6A3A34',mb:'#8F7393',mf:'#F4C8B8',cb:'#FFFFFF',cbd:'#E8D3CB',ci:'#1D1B17',cs:'#5E554D',eb:'#A1726A'},
+  beige:{bg:'#EFE5DD',ink:'#1D1B17',sub:'#5E554D',mb:'#8F7393',mf:'#F4C8B8',cb:'#FFFFFF',cbd:'#E6DED6',ci:'#1D1B17',cs:'#5E554D',eb:'#A1726A'},
+};
+const SLIDES = [
+  { theme:'cream', size:104, headline:'“One good bit. One tricky bit.”', subline:'A gentle end-of-day question that leaves room to say nothing at all.', eyebrow:'A conversation prompt to try', cardTitle:'Swipe for how to ask it without pressure.', cardBody:null },
+  { theme:'blush', size:96, headline:'Ask it once, lightly.', subline:'Side by side can feel easier than face to face: the car, the walk home, the washing-up.', eyebrow:'Say this', cardTitle:'“What was one good bit and one tricky bit of today?”', cardBody:'Then leave a pause. No need to fill it.' },
+  { theme:'peach', size:96, headline:'Go first.', subline:'Your answer shows what an answer can look like. Keep it small and real.', eyebrow:'For example', cardTitle:'“My good bit was a hot cup of tea. My tricky bit was the traffic.”', cardBody:'Everyday is enough. Save the big stuff for grown-ups.' },
+  { theme:'lilac', size:96, headline:'Let a shrug be an answer.', subline:'Not today is fine. Keeping the question low-pressure keeps it open for another day.', eyebrow:'If they don’t want to', cardTitle:'“That’s OK. Ask me mine tomorrow if you like.”', cardBody:'No follow-up questions. No big deal.' },
+  { theme:'plum', size:96, headline:'If they share, just listen.', subline:'The tricky bit doesn’t need fixing tonight. Hearing it can be the whole job.', eyebrow:'Try this', cardTitle:'“Thanks for telling me. That sounds tricky.”', cardBody:'Solutions can wait until they ask, or until tomorrow.' },
+  { theme:'beige', size:104, headline:'Try it tonight. Save it for the next one.', subline:'One question, asked lightly, as often as it feels right.', eyebrow:null, cardTitle:'Good bit, tricky bit. Your turn first.', cardBody:null, italic:true, footer:'parentsurvival.co.uk' },
+];
+const esc = s => String(s ?? '').replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]));
+const slide = (s, i) => { const t = T[s.theme]; return `<div class="art" id="s${i+1}" style="background:${t.bg}">
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <div class="lock"><div class="mark" style="background:${t.mb};color:${t.mf}">&#9829;</div><div class="word" style="color:${t.ink}">Parent Survival</div></div>
+    <div class="count" style="color:${t.sub}">${i+1} / ${SLIDES.length}</div></div>
+  <div class="h" style="font-size:${s.size}px;color:${t.ink};margin-top:56px">${esc(s.headline)}</div>
+  <div style="font-size:35px;line-height:1.45;font-weight:300;color:${t.sub};max-width:840px;margin-top:28px">${esc(s.subline)}</div>
+  <div style="flex:1;display:flex;align-items:center"><div style="width:100%"><div class="card" style="background:${t.cb};border-color:${t.cbd}">
+    ${s.eyebrow ? `<div class="eyebrow" style="color:${t.eb}">${esc(s.eyebrow)}</div>` : ''}
+    <div class="ct" style="color:${t.ci};font-style:${s.italic?'italic':'normal'}">${esc(s.cardTitle)}</div>
+    ${s.cardBody ? `<div style="font-size:25px;line-height:1.5;color:${t.cs}">${esc(s.cardBody)}</div>` : ''}</div></div></div>
+  <div style="font-size:25px;color:${t.sub};min-height:30px">${s.footer ? esc(s.footer) : (i < SLIDES.length-1 ? 'Swipe →' : '')}</div></div>`; };
+const q = new URLSearchParams(location.search), n = q.get('slide');
+if (n) { document.body.className = 'single'; document.body.insertAdjacentHTML('beforeend', slide(SLIDES[n-1], n-1)); }
+else SLIDES.forEach((s,i) => document.body.insertAdjacentHTML('beforeend', slide(s,i)));
+</script>
+</body>
+</html>
